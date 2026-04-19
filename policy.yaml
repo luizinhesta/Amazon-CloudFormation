@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Policy S3 para CloudFront
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+Resources:
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Fn::ImportValue:
+          Fn::Sub: "${EnvironmentName}-bucket-name"
+
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource:
+              Fn::Sub:
+                - "${BucketArn}/*"
+                - BucketArn:
+                    Fn::ImportValue:
+                      Fn::Sub: "${EnvironmentName}-bucket-arn"
+            Condition:
+              StringEquals:
+                AWS:SourceArn:
+                  Fn::Sub:
+                    - "arn:aws:cloudfront::${AWS::AccountId}:distribution/${CFId}"
+                    - CFId:
+                        Fn::ImportValue:
+                          Fn::Sub: "${EnvironmentName}-cf-id"

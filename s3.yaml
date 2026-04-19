@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Bucket S3 privado
+
+Parameters:
+  EnvironmentName:
+    Type: String
+
+  BucketName:
+    Type: String
+
+Resources:
+  SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+
+Outputs:
+  BucketName:
+    Value: !Ref SiteBucket
+    Export:
+      Name: !Sub "${EnvironmentName}-bucket-name"
+
+  BucketArn:
+    Value: !GetAtt SiteBucket.Arn
+    Export:
+      Name: !Sub "${EnvironmentName}-bucket-arn"
+
+  BucketDomain:
+    Value: !GetAtt SiteBucket.RegionalDomainName
+    Export:
+      Name: !Sub "${EnvironmentName}-bucket-domain"
