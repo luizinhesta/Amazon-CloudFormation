@@ -1,4 +1,4 @@
-# ☁️ Infrastructure as Code & CI/CD - Cloud Formation - Site Filmes 1/1
+# ☁️ Cloud Formation - Infrastructure as Code & CI/CD - Site Filmes 1/1
 
 ## 📌 Sobre o Projeto
 
